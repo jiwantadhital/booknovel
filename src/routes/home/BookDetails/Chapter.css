@@ -1,0 +1,40 @@
+.chapter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .chapter-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+    cursor: pointer; /* add cursor property */
+
+  }
+  
+  .chapter-item:hover, .chapter-hovered {
+    background-color: #f5f5f5;
+  }
+  
+  .chapter-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 1rem;
+    border-radius: 50%; /* add border-radius property */
+    background-color: #00a76d; /* add background-color property */
+    color: #fff; /* add color property to make the number text white */
+    width: 2.5rem; /* add width property to ensure consistent size */
+    height: 2.5rem; /* add height property to ensure consistent size */
+    display: flex; /* add display flex to center the number */
+    justify-content: center; /* center the number horizontally */
+    align-items: center; /* center the number vertically */
+    border: 2px solid #ddd; /* add border property */
+
+  }
+  
+  .chapter-name {
+    font-size: 1.2rem;
+  }
+  
