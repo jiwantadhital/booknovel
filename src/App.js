@@ -7,6 +7,7 @@ import BookDetail from './routes/BookDetail.js';
 import Books from './routes/Books';
 import Footer from './components/Footer';
 import LoginRegister from './routes/auth/LoginRegister';
+import BookAttribute from './routes/home/BookAttributes/BookAttribute';
 
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/all' element={<Books/>}/>
         <Route path="/product-details" element={<BookDetail/>}/>
+        <Route path="/product-attribute" element={<BookAttribute/>}/>
         <Route path='/loginRegister' element={<LoginRegister/>}/>
+        <Route path='/about' element={<About/>}/>
         {/* <Route path='/about' element={<About/>}/>
         <Route path='/about' element={<About/>}/> */}
       </Routes>  

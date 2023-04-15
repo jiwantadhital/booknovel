@@ -1,11 +1,29 @@
 body {font-family: Arial;}
 
 /* Style the tab */
-.tab {
+@media only screen and (min-width: 992px) {
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #ffff;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .tab {
+    overflow: hidden;
+    padding-left: 150px;
+    padding-right: 600px;
+    border: 1px solid #ccc;
+    background-color: #ffff;
+  }
+}
+/* .tab {
   overflow: hidden;
+  padding-left: 150px;
+  padding-right: 600px;
   border: 1px solid #ccc;
   background-color: #ffff;
-}
+} */
 
 /* Style the buttons inside the tab */
 .tab button {
@@ -46,4 +64,22 @@ body {font-family: Arial;}
     justify-content: center;
   align-items: center;
 
+}
+
+
+
+.row-1 {
+  overflow: auto;
+  white-space:nowrap;
+  width: 1200px;
+}
+.col-2 {
+  display: inline-block;
+  /* padding-right:20px; */
+  white-space:normal;
+}
+
+.container1{
+  padding-left: 5%;
+  width: 1500px;
 }

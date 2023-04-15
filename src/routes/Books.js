@@ -1,9 +1,59 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Link,useNavigate } from "react-router-dom";
 import "./Book.css"
+import KhaltiCheckout from "khalti-checkout-web";
+import config from "../components/khalti/khalti_config";
+
 
 function Books() {
+    let checkout = new KhaltiCheckout(config);
+
+    const [isLoggedIn, setActiveTab] = useState(false);
+    const datas = localStorage.getItem('token');
+
+    const handleTabClick = () => {
+        if(datas != null){
+            setActiveTab(true);
+         }
+      };
+      useEffect(() => {
+        if(datas != null){
+            setActiveTab(true);
+         }
+      }, isLoggedIn);
+    const [id, setId] = useState('');
   const [products, setProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [categories, setCategories] = useState([]);
+  const handleSubmit = async (Id) => {
+    const response = await fetch('http://localhost:8000/api/add/favourite', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: Id
+      }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data);
+    } else {
+      // Error - display the error message
+    }
+
+  };
+  useEffect(() => {
+      fetch("http://localhost:8000/api/backend/attribute/all")
+        .then((response) => response.json())
+        .then((data) => setCategories(data))
+        .catch((error) => console.error(error));
+    }, []);
+  // Filter the products based on the search query
+  const filteredProducts = products.filter(product => {
+    return product.title.toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
   useEffect(() => {
     fetch("http://localhost:8000/api/backend/product/all")
@@ -30,41 +80,19 @@ function Books() {
                   onClick={() => setGenderCollapsed(!genderCollapsed)}
                   href="#"
                 >
-                  Gender
+                  All Categories
                   <i className={`fa fa-fw mt-1 ${genderCollapsed ? 'fa-chevron-circle-down' : 'fa-chevron-circle-up'}`}></i>
                 </a>
                 <ul className={`collapse list-unstyled pl-3 ${genderCollapsed ? '' : 'show'}`}>
-                  <li><a className="text-decoration-none" href="#">Men</a></li>
-                  <li><a className="text-decoration-none" href="#">Women</a></li>
+                {categories.map((category) => (
+                  <li><a className="text-decoration-none" style={{ cursor: 'pointer' }} onClick={()=>{
+                    localStorage.setItem('catId', (category.id));
+                    navigate('/product-attribute',{state: {category}});
+                      }}>{category.name}</a></li>
+                ))}
                 </ul>
               </li>
-              <li className="pb-3">
-                <a className="d-flex justify-content-between h3 text-decoration-none"
-                  onClick={() => setSaleCollapsed(!saleCollapsed)}
-                  href="#"
-                >
-                  Sale
-                  <i className={`fa fa-fw mt-1 ${saleCollapsed ? 'fa-chevron-circle-down' : 'fa-chevron-circle-up'}`}></i>
-                </a>
-                <ul className={`collapse list-unstyled pl-3 ${saleCollapsed ? '' : 'show'}`}>
-                  <li><a className="text-decoration-none" href="#">Sport</a></li>
-                  <li><a className="text-decoration-none" href="#">Luxury</a></li>
-                </ul>
-              </li>
-              <li className="pb-3">
-                <a className="d-flex justify-content-between h3 text-decoration-none"
-                  onClick={() => setProductCollapsed(!productCollapsed)}
-                  href="#"
-                >
-                  Product
-                  <i className={`fa fa-fw mt-1 ${productCollapsed ? 'fa-chevron-circle-down' : 'fa-chevron-circle-up'}`}></i>
-                </a>
-                <ul className={`collapse list-unstyled pl-3 ${productCollapsed ? '' : 'show'}`}>
-                  <li><a className="text-decoration-none" href="#">Bag</a></li>
-                  <li><a className="text-decoration-none" href="#">Sweater</a></li>
-                  <li><a className="text-decoration-none" href="#">Sunglasses</a></li>
-                </ul>
-              </li>
+      
             </ul>
           </div>
 
@@ -72,6 +100,7 @@ function Books() {
 
 
             <div class="col-lg-9">
+                
                 <div class="row">
                     <div class="col-md-6">
                         <ul class="list-inline shop-top-menu pb-3 pt-1">
@@ -79,10 +108,10 @@ function Books() {
                                 <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="#">Men's</a>
+                                <a class="h3 text-dark text-decoration-none mr-3" href="#">Premium</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none" href="#">Women's</a>
+                                <a class="h3 text-dark text-decoration-none" href="#">Free</a>
                             </li>
                         </ul>
                     </div>
@@ -96,9 +125,27 @@ function Books() {
                         </div>
                     </div>
                 </div>
+                <form action="" method="get" class="modal-content modal-body border-0 p-0">
+                    <div className="input-group mb-2">
+          <input
+            type="text"
+            className="form-control"
+            id="inputModalSearch"
+            name="q"
+            placeholder="Search ..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+
+<button type="submit" class="input-group-text bg-success text-light">
+                        <i class="fa fa-fw fa-search text-white"></i>
+                    </button>
+        </div>
+
+            </form>
                 <div class="row">
-                {products.map((product) => (
-         <div class="col-md-4">
+                {filteredProducts.map((product) => (
+         <div class="col-md-3">
          <div class="card mb-4 product-wap rounded-0">
              <div class="card rounded-0">
              <img className="cardimg" src={`http://localhost:8000/images/product/${product.image}`} alt="No image" 
@@ -113,8 +160,19 @@ function Books() {
                      <ul class="list-unstyled">
                          <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
                          <li><a class="btn btn-success text-white mt-2" onClick={()=>{
-navigate('/product-details',{state:{product}});
-  }}><i class="far fa-eye"></i></a></li>
+                                            handleSubmit(product.id);
+                                            if(product.flash_product==1 && isLoggedIn==false){
+                                                navigate('/loginRegister');
+                                            }
+                                           else{
+                                            if(localStorage.getItem("paid")!="1"){
+                                                checkout.show({amount: 1000});
+                                            }
+                                            else if(localStorage.getItem("paid")=="1")
+                                            navigate('/product-details',{state:{product}});
+                                           }
+                        
+                        }}><i class="far fa-eye"></i></a></li>
 
  <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
                      </ul>
@@ -140,7 +198,7 @@ navigate('/product-details',{state:{product}});
                          <i class="text-muted fa fa-star"></i>
                      </li>
                  </ul>
-                 <p class="text-center mb-0">$250.00</p>
+                 <p class="text-center mb-0">{product.flash_product==1?"Premium":"Free"}</p>
              </div>
          </div>
      </div>

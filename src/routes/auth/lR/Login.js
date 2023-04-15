@@ -1,45 +1,67 @@
-import React, { useState } from 'react';
-import { Tab, Tabs, Form, Button } from 'react-bootstrap';
+import { useState } from 'react';
+import "./LR.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { Snackbar, SnackbarContent } from '@material-ui/core';
 function Login() {
-    const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleSubmit = (e) => {
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
+    setIsLoading(true);
+
+    const response = await fetch('http://localhost:8000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    setIsLoading(false);
+
+    if (response.ok) {
+      localStorage.setItem('token', (data.token));
+      localStorage.setItem('paid', (data.paid));
+      localStorage.setItem('userId', (data.id));
+      window.location.reload(true);
+      window.location.href = '/'; 
+      console.log(data);
+    } else {
+      // Error - display the error message
+      setError(data.message);
+    }
+    setIsLoading(false);
+
   };
+
   return (
     <div>
-       <Form className="login-form" onSubmit={handleSubmit}>
-      <h3>Log In</h3>
-      <Form.Group controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control
-          type="email"
-          placeholder="Enter email"
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-      </Form.Group>
-
-      <Form.Group controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
+        <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-      </Form.Group>
+       <button type="submit" disabled={isLoading}>
+  {isLoading ? 'Logging in...' : 'Login'}
+</button>
 
-      <Button className="submit-button" type="submit">
-        Log In
-      </Button>
-    </Form>
+      </form>
+      {error && <p className="error-message">{error}</p>}
     </div>
-  )
+  );
 }
 
 export default Login

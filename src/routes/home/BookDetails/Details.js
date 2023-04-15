@@ -12,7 +12,7 @@ function Details(props) {
             <i class="fa fa-star text-warning"></i>
             <i class="fa fa-star text-warning"></i>
             <i class="fa fa-star text-secondary"></i>
-            <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
+            <span class="list-inline-item text-dark">Rating 4.8 | {props.product.comments.length} Comments</span>
         </p>
 
 
@@ -27,9 +27,9 @@ function Details(props) {
                         <li class="list-inline-item">Category :
                             <input type="hidden" name="product-size" id="product-size" value="S"/>
                         </li>
-                        <li class="list-inline-item"><span class="btn btn-success btn-size">Romance</span></li>
-                        <li class="list-inline-item"><span class="btn btn-success btn-size">Comedy</span></li>
-                        <li class="list-inline-item"><span class="btn btn-success btn-size">Action</span></li>
+                        {props.product.attributes.map((attribute) => (
+                        <li class="list-inline-item"><span class="btn btn-success btn-size">{attribute.name}</span></li>
+                        ))}
                     </ul>
                 </div>
           
