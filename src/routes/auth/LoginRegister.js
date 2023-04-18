@@ -3,6 +3,8 @@ import Login from './lR/Login'
 import Register from './lR/Register'
 import "./lR/LR.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Header from '../../components/Header'
+import Footer from '../../components/Footer';
 function LoginRegister() {
   const [activeTab, setActiveTab] = useState("login");
 
@@ -10,7 +12,11 @@ function LoginRegister() {
     setActiveTab(tab);
   };
   return (
+    <div>
+                                                          <Header/>
+
     <div className='aC'>
+
     <div class="auth-container">
 <div className="auth-component-container">
 
@@ -39,6 +45,10 @@ function LoginRegister() {
       </div>
     </div>
     </div>
+
+    </div>
+    <Footer/>
+
     </div>
   )
 }

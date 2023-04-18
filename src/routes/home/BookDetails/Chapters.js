@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
+import { BrowserRouter, Route, Link,useNavigate } from "react-router-dom";
+
+
 import './Chapter.css';
 function Chapters(props) {
+  const navigate = useNavigate();
+  const chapterss = props.product.chapters;
+
     const [hoveredChapter, setHoveredChapter] = useState(null);
 
     const handleHover = (index) => {
@@ -20,7 +26,10 @@ function Chapters(props) {
             hoveredChapter === index ? 'chapter-hovered' : ''
           }`}
           onMouseEnter={() => handleHover(index)}
-          onMouseLeave={handleMouseLeave}
+          onMouseLeave={handleMouseLeave} onClick={()=>{
+            localStorage.setItem('chaptyerId', (props.product.id));
+            navigate('/chapterDetails',{state:{chapterss, index}});
+          }}
         >
           <div className="chapter-number">{chapter.number}</div>
           <div className="chapter-name">{chapter.name}</div>

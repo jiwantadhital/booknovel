@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Link,useNavigate,useLocation } from "react-router-dom";
 import KhaltiCheckout from "khalti-checkout-web";
 import config from "../../../components/khalti/khalti_config";
+import Header from '../../../components/Header'
+import Footer from '../../../components/Footer';
 function BookAttribute() {
     let checkout = new KhaltiCheckout(config);
     const [isLoggedIn, setActiveTab] = useState(false);
@@ -61,6 +63,8 @@ function BookAttribute() {
   
   return (
     <div>
+                                              <Header/>
+
     {/* Start Content */}
     <div className="container py-5">
       <div className="row">
@@ -326,6 +330,7 @@ function BookAttribute() {
       </div>
   </section>
   {/* <!--End Brands--> */}
+  <Footer/>
 
   </div>
   )

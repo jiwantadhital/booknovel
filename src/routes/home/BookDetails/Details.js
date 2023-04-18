@@ -5,7 +5,7 @@ function Details(props) {
     <div>
           <div class="card-body">
         <h1 class="h2">{props.product.title}</h1>
-        <p class="h3 py-2">$25.00</p>
+        <p class="h3 py-2">{props.product.flash_product==1?"Premium":"Free"}</p>
         <p class="py-2">
             <i class="fa fa-star text-warning"></i>
             <i class="fa fa-star text-warning"></i>

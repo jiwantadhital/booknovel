@@ -52,8 +52,7 @@ function MostPpular() {
                 <div class="col-lg-6 m-auto">
                     <h1 class="h1">Popular Novels</h1>
                     <p>
-                        Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                        Excepteur sint occaecat cupidatat non proident.
+                    Most popular novels for all the users
                     </p>
                 </div>
             </div>

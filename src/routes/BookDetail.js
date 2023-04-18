@@ -4,6 +4,8 @@ import "./home/Home.css";
 import Details from "./home/BookDetails/Details";
 import Comments from "./home/BookDetails/Comments";
 import Chapters from "./home/BookDetails/Chapters";
+import Header from '../components/Header'
+import Footer from '../components/Footer';
 function BookDetail() {
     // const [products, setProducts] = useState([]);
     // const [attribute, setAttribute] = useState([]);
@@ -54,6 +56,8 @@ function BookDetail() {
   return (
     
     <div >
+                                <Header/>
+
      {/* <!-- Open Content --> */}
     <section class="bg-light">
         <div class="container pb-5">
@@ -156,7 +160,7 @@ function BookDetail() {
                                     <i class="text-muted fa fa-star"></i>
                                 </li>
                             </ul>
-                            <p class="text-center mb-0">$20.00</p>
+                            <p class="text-center mb-0">{product.flash_product==1?"Premium":"Free"}</p>
                         </div>
                     </div>
                 </div>
@@ -175,6 +179,8 @@ function BookDetail() {
 
     </section>
     {/* // <!-- End Article --> */}
+    <Footer/>
+
     </div>
   );
 }

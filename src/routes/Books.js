@@ -3,11 +3,75 @@ import { BrowserRouter, Route, Link,useNavigate } from "react-router-dom";
 import "./Book.css"
 import KhaltiCheckout from "khalti-checkout-web";
 import config from "../components/khalti/khalti_config";
+import Header from '../components/Header'
+import Footer from '../components/Footer';
+import axios from 'axios';
+
 
 
 function Books() {
-    let checkout = new KhaltiCheckout(config);
+    let checkout = new KhaltiCheckout(config);   
+    const handlePaid = async () => {
+        const response = await fetch('http://localhost:8000/api/add/paid', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            "id": localStorage.getItem('userId')
+          }),
+        });
+      
+        const data = await response.json();
+        if (response.ok) {
+         
+          console.log(data);
+        } else {
+          console.log("Error");
+          // Error - display the error message
+        }
+      
+      };  
+      const sendData = async(product_id,datas)=> {
+        const response = await fetch('http://localhost:8000/api/add/userLike', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "user_id" : localStorage.getItem('userId'),
+        "product_id" : product_id,
+        "attribute_id" : datas
+      }),
+    });
 
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data);
+    } else {
+      // Error - display the error message
+    }
+      }
+      const addLikes = async(product_id)=> {
+        const response = await fetch('http://localhost:8000/api/add/likes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "user_id" : localStorage.getItem('userId'),
+        "product_id" : product_id,
+      }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data);
+    } else {
+      // Error - display the error message
+    }
+      }
+      
     const [isLoggedIn, setActiveTab] = useState(false);
     const datas = localStorage.getItem('token');
 
@@ -66,9 +130,17 @@ function Books() {
   const [productCollapsed, setProductCollapsed] = useState(true);
   const navigate = useNavigate();
 
+  const sendAttribute = async(attribu) => {
+    let datas = attribu.map((data) => {
+        return data.id;
+    });
+    // use the datas array here
+}
 
   return (
     <div>
+                    <Header/>
+
       {/* Start Content */}
       <div className="container py-5">
         <div className="row">
@@ -102,25 +174,13 @@ function Books() {
             <div class="col-lg-9">
                 
                 <div class="row">
-                    <div class="col-md-6">
-                        <ul class="list-inline shop-top-menu pb-3 pt-1">
-                            <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="#">Premium</a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none" href="#">Free</a>
-                            </li>
-                        </ul>
-                    </div>
+                
                     <div class="col-md-6 pb-4">
                         <div class="d-flex">
                             <select class="form-control">
-                                <option>Featured</option>
-                                <option>A to Z</option>
-                                <option>Item</option>
+                                <option>All</option>
+                                <option>Premium</option>
+                                <option>Free</option>
                             </select>
                         </div>
                     </div>
@@ -150,31 +210,43 @@ function Books() {
              <div class="card rounded-0">
              <img className="cardimg" src={`http://localhost:8000/images/product/${product.image}`} alt="No image" 
               style={{
-                maxWidth: "250px",
+                // maxWidth: "250px",
                 maxHeight: "300px",
                 width: "auto",
-                height: "auto",
+                height: "270px",
               }}
              />
                  <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                     <ul class="list-unstyled">
-                         <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
+                     <ul class="list-unstyled">{
+                       isLoggedIn==true?  <li><a class="btn btn-success text-white" onClick={()=>{
+                          addLikes(product.id);
+                         }}><i class="far fa-heart"></i></a></li>:<li></li>
+                        }
                          <li><a class="btn btn-success text-white mt-2" onClick={()=>{
+                                        let datas = product.attributes.map((data) => {
+                                            return data.id;
+                                        });
+                                        sendData(product.id,datas);
                                             handleSubmit(product.id);
                                             if(product.flash_product==1 && isLoggedIn==false){
+                                                
                                                 navigate('/loginRegister');
                                             }
                                            else{
-                                            if(localStorage.getItem("paid")!="1"){
+                                            if(product.flash_product==1&& localStorage.getItem("paid")!="1"){
                                                 checkout.show({amount: 1000});
+                                                handlePaid();
+                                                localStorage.setItem("paid" ,"1");
                                             }
-                                            else if(localStorage.getItem("paid")=="1")
+                                            else {
                                             navigate('/product-details',{state:{product}});
                                            }
+                                        }
                         
-                        }}><i class="far fa-eye"></i></a></li>
+                        }}>
+                            <i class="far fa-eye"></i></a></li>
 
- <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
+ 
                      </ul>
                  </div>
              </div>
@@ -325,9 +397,11 @@ function Books() {
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
     {/* <!--End Brands--> */}
+    <Footer/>
 
     </div>
   )

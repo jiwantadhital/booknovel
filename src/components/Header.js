@@ -21,6 +21,8 @@ function Header() {
 
      const logout=()=>{
         localStorage.removeItem('token');
+        localStorage.removeItem('userType');
+        localStorage.removeItem('userId');
         window.location.href = '/'; 
         window.location.reload(true);
 
@@ -67,16 +69,28 @@ function Header() {
                     {/* <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                         <i class="fa fa-fw fa-search text-dark mr-2"></i>
                     </a> */}
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                    <Link to="/liked" style={{ textDecoration: 'none' }}>
+                    <a class="nav-icon position-relative text-decoration-none" >
+                        <i class="far fa-heart" onClick={()=>{
+                            
+                        }}></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
                     </a>
+                    </Link>
                     <a class="nav-icon position-relative text-decoration-none" href="#">
                    { 
                   isLoggedIn==false? <Link to="/loginRegister" style={{ textDecoration: 'none' }}>
                         <button class="login-button" >Login</button>
                         </Link>: 
                          <button class="login-button" onClick={logout} >Logout</button>
+                        
+                    }
+                    <a>         </a>
+                    {
+                    localStorage.getItem('userType')==1? <Link to="/loginRegister" style={{ textDecoration: 'none' }}>
+                        <button class="login-button" >Write a novel</button>
+                        </Link>: 
+                        <a></a>
                         
                     }
 

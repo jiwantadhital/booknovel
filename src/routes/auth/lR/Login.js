@@ -2,7 +2,11 @@ import { useState } from 'react';
 import "./LR.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Snackbar, SnackbarContent } from '@material-ui/core';
+import KhaltiCheckout from "khalti-checkout-web";
+import config from "../../../components/khalti/khalti_config";
 function Login() {
+  let checkout = new KhaltiCheckout(config);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -27,9 +31,19 @@ function Login() {
     if (response.ok) {
       localStorage.setItem('token', (data.token));
       localStorage.setItem('paid', (data.paid));
-      localStorage.setItem('userId', (data.id));
+      localStorage.setItem('userId', (data.user_id));
+      localStorage.setItem('userType', (data.user_type));
       window.location.reload(true);
-      window.location.href = '/'; 
+      window.location.href = '/';
+      // if(data.paid==1){
+      //   window.location.href = '/';
+      //   window.location.reload(true);
+      // }
+      // else{
+      //   // checkout.show({amount: 1000})
+        
+      // }
+
       console.log(data);
     } else {
       // Error - display the error message
