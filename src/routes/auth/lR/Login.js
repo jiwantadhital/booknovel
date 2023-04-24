@@ -11,7 +11,27 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const handlePaid = async () => {
+    const response = await fetch('http://localhost:8000/api/add/paid', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "id": localStorage.getItem('forPaid')
+      }),
+    });
   
+    const data = await response.json();
+    if (response.ok) {
+     
+      console.log(data);
+    } else {
+      console.log("Error");
+      // Error - display the error message
+    }
+  
+  };  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -26,15 +46,22 @@ function Login() {
 
     const data = await response.json();
 
-    setIsLoading(false);
+   
 
     if (response.ok) {
+      if(localStorage.getItem('paid')==="1"){
+        handlePaid();
+      }
       localStorage.setItem('token', (data.token));
       localStorage.setItem('paid', (data.paid));
       localStorage.setItem('userId', (data.user_id));
       localStorage.setItem('userType', (data.user_type));
-      window.location.reload(true);
-      window.location.href = '/';
+      setTimeout(() => {
+        setIsLoading(false);
+        window.location.reload(true);
+        window.location.href = '/';
+      }, 500);
+    
       // if(data.paid==1){
       //   window.location.href = '/';
       //   window.location.reload(true);
@@ -46,10 +73,11 @@ function Login() {
 
       console.log(data);
     } else {
+      setIsLoading(false);
       // Error - display the error message
       setError(data.message);
     }
-    setIsLoading(false);
+    
 
   };
 

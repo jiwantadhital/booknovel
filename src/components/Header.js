@@ -8,6 +8,27 @@ import '../components/Button.css';
 function Header() {
     const [isLoggedIn, setActiveTab] = useState(false);
     const datas = localStorage.getItem('token');
+    const handlePaid = async () => {
+        const response = await fetch('http://localhost:8000/api/add/paid', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            "id": localStorage.getItem('forPaid')
+          }),
+        });
+      
+        const data = await response.json();
+        if (response.ok) {
+         
+          console.log(data);
+        } else {
+          console.log("Error");
+          // Error - display the error message
+        }
+      
+      }; 
     const handleTabClick = () => {
         if(datas != null){
             setActiveTab(true);
@@ -20,11 +41,20 @@ function Header() {
       }, isLoggedIn);
 
      const logout=()=>{
+        if(localStorage.getItem('paid')==="1"){
+            handlePaid();
+        }
+        else{
+
+        }
         localStorage.removeItem('token');
         localStorage.removeItem('userType');
-        localStorage.removeItem('userId');
-        window.location.href = '/'; 
-        window.location.reload(true);
+        setTimeout(() => {
+            localStorage.removeItem('userId');
+            window.location.href = '/';
+            window.location.reload(true);
+            
+          }, 500);
 
       }
   return (

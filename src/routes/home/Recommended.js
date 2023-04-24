@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Link,useNavigate,useLocation } from "react-router
 function Recommended() {
     const [popular, setPopular] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:8000/api/show/userData")
+        fetch(`http://localhost:8000/api/show/userData/${localStorage.getItem('userId')}`)
           .then((response) => response.json())
           .then((data) => setPopular(data))
           .catch((error) => console.error(error));
@@ -14,7 +14,7 @@ function Recommended() {
     <div class="container py-5">
         <div class="row text-center py-3">
             <div class="col-lg-6 m-auto">
-                <h1 class="h1">Recommended fo you Novels</h1>
+                <h1 class="h1">Recommended for you Novels</h1>
                 <p>
                     
                 </p>

@@ -47,7 +47,6 @@ let config = {
         console.log("error");
       },
       onClose() {
-        localStorage.setItem("paid" ,"0");
 
         console.log('widget is closing');
       }
