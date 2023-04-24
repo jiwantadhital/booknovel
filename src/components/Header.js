@@ -6,6 +6,27 @@ import '../components/Button.css';
 
 
 function Header() {
+    const handlePaid = async () => {
+        const response = await fetch('http://localhost:8000/api/add/paid', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            "id": localStorage.getItem('forPaid')
+          }),
+        });
+      
+        const data = await response.json();
+        if (response.ok) {
+         
+          console.log(data);
+        } else {
+          console.log("Error");
+          // Error - display the error message
+        }
+      
+      };  
     const [isLoggedIn, setActiveTab] = useState(false);
     const datas = localStorage.getItem('token');
     const handleTabClick = () => {
@@ -20,11 +41,21 @@ function Header() {
       }, isLoggedIn);
 
      const logout=()=>{
-        localStorage.removeItem('token');
-        localStorage.removeItem('userType');
-        localStorage.removeItem('userId');
-        window.location.href = '/'; 
-        window.location.reload(true);
+        if(localStorage.getItem('paid')==="1"){
+            handlePaid();
+          }
+          else{
+
+          }
+          localStorage.removeItem('token');
+          localStorage.removeItem('userType');
+          localStorage.removeItem('userId');
+          setTimeout(() => {
+              window.location.href = '/'; 
+          window.location.reload(true);
+            }, 500);
+
+    
 
       }
   return (

@@ -23,7 +23,7 @@ function Register() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({name, email, password ,user: registerAsWriter ? 2 : 1 }),
+      body: JSON.stringify({name, email, password ,user: registerAsWriter ? 1 : 2 }),
     });
 
     const data = await response.json();

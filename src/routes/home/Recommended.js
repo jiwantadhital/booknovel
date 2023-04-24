@@ -25,7 +25,7 @@ function Recommended() {
             <div class="col-8 col-md-3 mb-3" >
                 <div class="card h-80">
                     <a>
-                        <img src={`http://localhost:8000/images/product/${product.products.image}`}class="card-img-top" alt="..." 
+                        <img src={`http://localhost:8000/images/product/${product.image}`}class="card-img-top" alt="..." 
                          style={{
                             maxHeight: "220px",
                             width: "auto",
@@ -59,7 +59,7 @@ function Recommended() {
             //   else if(localStorage.getItem("paid")=="1")
             //   navigate('/product-details',{state:{product}});
             //    }
-            }} class="h2 text-decoration-none text-dark">{product.products.title}</a>
+            }} class="h2 text-decoration-none text-dark">{product.title}</a>
                         <p class="card-text"
                         style={{
                             "line-height": "1.5em",
@@ -69,7 +69,7 @@ function Recommended() {
               
                           }}
                         >
-                         { product.products.description}
+                         { product.description}
                         </p>
                         <p class="text-muted">Reviews (12)</p>
                     </div>

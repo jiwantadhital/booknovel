@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.3.5",
     "bootstrap": "^5.2.3",
+    "compute-cosine-similarity": "^1.0.0",
     "hammerjs": "^2.0.8",
     "jquery": "^3.6.4",
     "khalti-checkout-web": "^2.2.0",

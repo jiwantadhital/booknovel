@@ -12,20 +12,35 @@ function Comments(props) {
     const handleRatingChange = (event) => {
         setRating(event.target.value);
       };
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        const data = {"product_id":props.product.id, "likes": rating,"comments": description };
+        fetch('http://localhost:8000/api/user-comments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Failed to post comment');
+            }
+            // reset the form fields
+            setRating('');
+            setDescription('');
+            setShowForm(false);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      };
     
+      
       const handleDescriptionChange = (event) => {
         setDescription(event.target.value);
       };
-      const handleSubmit = (event) => {
-        event.preventDefault();
-        // do something with the rating and description data, e.g. submit it to a server
-        console.log('Rating:', rating);
-        console.log('Description:', description);
-        // reset the form fields
-        setRating('');
-        setDescription('');
-        setShowForm(false);
-      };
+    
   return (
     <div>
           <button className='btn1' onClick={() => setShowForm(true)}>Add Comments</button>
@@ -37,7 +52,7 @@ function Comments(props) {
             <label htmlFor="description">Description:</label>
             <textarea id="description" name="description" value={description} onChange={handleDescriptionChange}></textarea>
             <br />
-            <button className='btn2' type="submit">Submit</button>
+            <button className='btn2' type="submit" >Submit</button>
           </form>
         )}
        <div className='formar'>

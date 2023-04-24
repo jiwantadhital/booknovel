@@ -178,7 +178,7 @@ function Books() {
                     <div class="col-md-6 pb-4">
                         <div class="d-flex">
                             <select class="form-control">
-                                <option>All</option>
+                                <option>{localStorage.getItem('paid')}</option>
                                 <option>Premium</option>
                                 <option>Free</option>
                             </select>
@@ -235,8 +235,6 @@ function Books() {
                                            else{
                                             if(product.flash_product==1&& localStorage.getItem("paid")!="1"){
                                                 checkout.show({amount: 1000});
-                                                handlePaid();
-                                                localStorage.setItem("paid" ,"1");
                                             }
                                             else {
                                             navigate('/product-details',{state:{product}});
