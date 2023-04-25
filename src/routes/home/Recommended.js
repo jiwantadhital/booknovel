@@ -14,7 +14,7 @@ function Recommended() {
     <div class="container py-5">
         <div class="row text-center py-3">
             <div class="col-lg-6 m-auto">
-                <h1 class="h1">Recommended fo you Novels</h1>
+                <h1 class="h1">Recommended for you Novels</h1>
                 <p>
                     
                 </p>
@@ -22,7 +22,7 @@ function Recommended() {
         </div>
         <div class="row">
         {popular.map((product) => (
-            <div class="col-8 col-md-3 mb-3" >
+            <div class="col-8 col-md-4 mb-3" >
                 <div class="card h-80">
                     <a>
                         <img src={`http://localhost:8000/images/product/${product.image}`}class="card-img-top" alt="..." 
