@@ -8,11 +8,11 @@ function Footer() {
             <div class="row">
 
                 <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">Zay Shop</h2>
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">E-Novel</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         <li>
                             <i class="fas fa-map-marker-alt fa-fw"></i>
-                            123 Consectetur at ligula 10660
+                            A novel website
                         </li>
                         <li>
                             <i class="fa fa-phone fa-fw"></i>
@@ -20,7 +20,7 @@ function Footer() {
                         </li>
                         <li>
                             <i class="fa fa-envelope fa-fw"></i>
-                            <a class="text-decoration-none" href="mailto:info@company.com">info@company.com</a>
+                            <a class="text-decoration-none" href="mailto:info@company.com">novel@company.com</a>
                         </li>
                     </ul>
                 </div>
@@ -28,13 +28,12 @@ function Footer() {
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Products</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Luxury</a></li>
-                        <li><a class="text-decoration-none" href="#">Sport Wear</a></li>
-                        <li><a class="text-decoration-none" href="#">Men's Shoes</a></li>
-                        <li><a class="text-decoration-none" href="#">Women's Shoes</a></li>
-                        <li><a class="text-decoration-none" href="#">Popular Dress</a></li>
-                        <li><a class="text-decoration-none" href="#">Gym Accessories</a></li>
-                        <li><a class="text-decoration-none" href="#">Sport Shoes</a></li>
+                        <li><a class="text-decoration-none" href="#">Action</a></li>
+                        <li><a class="text-decoration-none" href="#">Comedy</a></li>
+                        <li><a class="text-decoration-none" href="#">Drama</a></li>
+                        <li><a class="text-decoration-none" href="#">Romance</a></li>
+                        <li><a class="text-decoration-none" href="#">Emotional</a></li>
+             
                     </ul>
                 </div>
 
@@ -43,8 +42,7 @@ function Footer() {
                     <ul class="list-unstyled text-light footer-link-list">
                         <li><a class="text-decoration-none" href="#">Home</a></li>
                         <li><a class="text-decoration-none" href="#">About Us</a></li>
-                        <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
-                        <li><a class="text-decoration-none" href="#">FAQs</a></li>
+                        <li><a class="text-decoration-none" href="#">All Novels</a></li>
                         <li><a class="text-decoration-none" href="#">Contact</a></li>
                     </ul>
                 </div>
@@ -87,7 +85,7 @@ function Footer() {
                     <div class="col-12">
                         <p class="text-left text-light">
                             Copyright &copy; 2021 Company Name 
-                            | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a>
+                            | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">E-Novel</a>
                         </p>
                     </div>
                 </div>
