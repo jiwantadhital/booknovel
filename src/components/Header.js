@@ -105,7 +105,7 @@ function Header() {
                         <i class="far fa-heart" onClick={()=>{
                             
                         }}></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     </Link>
                     <a class="nav-icon position-relative text-decoration-none" href="#">
