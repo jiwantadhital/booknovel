@@ -1,6 +1,10 @@
 import React from 'react'
 
 function Details(props) {
+    const comments = props.product.comments;
+const likes = comments.map(comment => comment.likes);
+const totalLikes = likes.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+const averageLikes = totalLikes / comments.length;
   return (
     <div>
           <div class="card-body">
@@ -8,11 +12,9 @@ function Details(props) {
         <p class="h3 py-2">{props.product.flash_product==1?"Premium":"Free"}</p>
         <p class="py-2">
             <i class="fa fa-star text-warning"></i>
-            <i class="fa fa-star text-warning"></i>
-            <i class="fa fa-star text-warning"></i>
-            <i class="fa fa-star text-warning"></i>
-            <i class="fa fa-star text-secondary"></i>
-            <span class="list-inline-item text-dark">Rating 4.8 | {props.product.comments.length} Comments</span>
+            <span class="list-inline-item text-dark">Rating {
+               averageLikes
+            } | {props.product.comments.length} Comments</span>
         </p>
 
 

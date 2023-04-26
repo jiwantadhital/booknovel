@@ -1,20 +1,22 @@
 import khaltiKey from "./khaltikey";
 
 const handleSubmit = async () => {
+   await new Promise(resolve => setTimeout(resolve, 1000));
   const response = await fetch('http://localhost:8000/api/add/paid', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      "id": 1
+      "id": localStorage.getItem('userId')
     }),
   });
 
   const data = await response.json();
   if (response.ok) {
+    localStorage.setItem('paid', 1);
    
-    console.log(data);
+    console.log("all done");
   } else {
     console.log("Error");
     // Error - display the error message
@@ -32,22 +34,18 @@ let config = {
       onSuccess(payload) {
         // hit merchant api for initiating verification
        handleSubmit();
-      //  window.location.href = '/';
-      //  window.location.reload(true);
-        localStorage.setItem('paid', ("1"));
+ 
       console.log("done");
 
       },
 
       // onError handler is optional
       onError(error) {
-        handleSubmit();
 
         // handle errors
         console.log("error");
       },
       onClose() {
-        localStorage.setItem('paid', ("1"));
 
         console.log('widget is closing');
       }

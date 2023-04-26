@@ -1,10 +1,22 @@
-import { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import SingleComment from './SingleComment';
 import "./Comment.css";
 import { FaStar } from 'react-icons/fa';
 
 
 function Comments(props) {
+  const [isLoggedIn, setActiveTab] = useState(false);
+  const datas = localStorage.getItem('token');
+  const handleTabClick = () => {
+      if(datas != null){
+          setActiveTab(true);
+       }
+    };
+    useEffect(() => {
+      if(datas != null){
+          setActiveTab(true);
+       }
+    }, isLoggedIn);
     const comments = props.product.comments;
     const [showForm, setShowForm] = useState(false);
     const [rating, setRating] = useState('');
@@ -14,7 +26,7 @@ function Comments(props) {
       };
       const handleSubmit = (event) => {
         event.preventDefault();
-        const data = {"product_id":props.product.id, "likes": rating,"comments": description };
+        const data = {"user_id":localStorage.getItem("userId"),"product_id":props.product.id, "likes": rating,"comments": description };
         fetch('http://localhost:8000/api/user-comments', {
           method: 'POST',
           headers: {
@@ -43,7 +55,8 @@ function Comments(props) {
     
   return (
     <div>
-          <button className='btn1' onClick={() => setShowForm(true)}>Add Comments</button>
+         { isLoggedIn==true? <button className='btn1' onClick={() => setShowForm(true)}>Add Comments</button>:<div>
+          Log in to comment</div>}
         {showForm && (
           <form onSubmit={handleSubmit}>
             <label htmlFor="rating">Rating:</label>
@@ -63,7 +76,7 @@ function Comments(props) {
       </div>
       <div className="comment-info">
         <div className="name-container">
-          <h5 className="name">Jhon Doe</h5>
+          <h5 className="name">{comment.user.name}</h5>
           <div className="rating-container">
           <SingleComment likes={comment.likes}/>
           </div>

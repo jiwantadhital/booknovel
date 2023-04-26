@@ -41,12 +41,6 @@ function Header() {
       }, isLoggedIn);
 
      const logout=()=>{
-        if(localStorage.getItem('paid')==="1"){
-            handlePaid();
-          }
-          else{
-
-          }
           localStorage.removeItem('token');
           localStorage.removeItem('userType');
           localStorage.removeItem('userId');

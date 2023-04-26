@@ -236,8 +236,7 @@ function Books() {
                                            else{
                                             if(product.flash_product==1&& localStorage.getItem("paid")!="1"){
                                                 checkout.show({amount: 1000});
-                                                handlePaid();
-                                                localStorage.setItem("paid" ,"1");
+                                                // handlePaid();
                                             }
                                             else {
                                             navigate('/product-details',{state:{product}});
