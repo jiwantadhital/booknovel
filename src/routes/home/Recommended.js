@@ -1,6 +1,58 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Link,useNavigate,useLocation } from "react-router-dom";
+import KhaltiCheckout from "../../components/khalti/khalti";
+import config from "../../components/khalti/khalti_config";
 function Recommended() {
+    let checkout = new KhaltiCheckout(config);   
+
+    const navigate = useNavigate();
+
+
+    const [isLoggedIn, setActiveTab] = useState(false);
+    const datas = localStorage.getItem('token');
+
+    const handleTabClick = () => {
+        if(datas != null){
+            setActiveTab(true);
+         }
+      };
+      useEffect(() => {
+        if(datas != null){
+            setActiveTab(true);
+         }
+      }, isLoggedIn);
+      const sendData = async(product_id,datass)=> {
+        const response = await fetch('http://localhost:8000/api/add/userLike', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "user_id" : localStorage.getItem('userId'),
+        "product_id" : product_id,
+        "attribute_id" : datass
+      }),
+    });
+}
+      const handleSubmit = async (Id) => {
+        const response = await fetch('http://localhost:8000/api/add/favourite', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: Id
+          }),
+        });
+    
+        const data = await response.json();
+        if (response.ok) {
+          console.log(data);
+        } else {
+          // Error - display the error message
+        }
+    
+      };
     const [popular, setPopular] = useState([]);
     useEffect(() => {
         fetch("http://localhost:8000/api/show/userData")
@@ -37,10 +89,7 @@ function Recommended() {
                         <ul class="list-unstyled d-flex justify-content-between">
                             <li>
                                 <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
+                                <li class="text-muted text-right">{product.comments.isEmpty?(product.comments.map(comment => comment.likes).reduce((accumulator, currentValue) => accumulator + currentValue, 0)/product.comments.length):"0"}</li>
                             </li>
                             <li class="text-muted text-right">{product.flash_product===1?"Premium":"Free"}</li>
                         </ul>
@@ -48,17 +97,24 @@ function Recommended() {
                          cursor: 'pointer'
               
                           }} onClick={()=>{
-            //     handleSubmit(product.id);
-            //     if(product.flash_product==1 && isLoggedIn==false){
-            //         navigate('/loginRegister');
-            //     }
-            //    else{
-            //     if(localStorage.getItem("paid")!="1"){
-            //       checkout.show({amount: 1000});
-            //   }
-            //   else if(localStorage.getItem("paid")=="1")
-            //   navigate('/product-details',{state:{product}});
-            //    }
+                            let datas = product.attributes.map((data) => {
+                                return data.id;
+                            });
+                            sendData(product.id,datas);
+                                handleSubmit(product.id);
+                                if(product.flash_product==1 && isLoggedIn==false){
+                                    
+                                    navigate('/loginRegister');
+                                }
+                               else{
+                                if(product.flash_product==1&& localStorage.getItem("paid")!="1"){
+                                    checkout.show({amount: 1000});
+                                    // handlePaid();
+                                }
+                                else {
+                                navigate('/product-details',{state:{product}});
+                               }
+                            }
             }} class="h2 text-decoration-none text-dark">{product.title}</a>
                         <p class="card-text"
                         style={{

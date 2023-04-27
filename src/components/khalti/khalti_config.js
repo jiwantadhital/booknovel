@@ -32,6 +32,7 @@ let config = {
     "productUrl": "http://gameofthrones.com/buy/Dragons",
     "eventHandler": {
       onSuccess(payload) {
+        console.log(payload);
         // hit merchant api for initiating verification
        handleSubmit();
  

@@ -28,7 +28,7 @@ function Liked() {
       const [product, setSingle] = useState([]);
       const handleSingle = async (id) => {
         try {
-          const response = await fetch(`http://localhost:8000/api/product/single/${id}`);
+          const response = await fetch(`http://localhost:8000/api/show/likes`);
           const data = await response.json();
           setSingle(data);
         } catch (error) {
@@ -115,26 +115,9 @@ function Liked() {
                              cursor: 'pointer'
                   
                               }} onClick={async()=>{
-                                localStorage.setItem('pId',product);
-                                 handleSingle(1);
-                                 const datass = localStorage.getItem('pId');
-
-                                setTimeout(() => {
-                                  navigate('/product-details',{state:{datass}});
-                                }, 4000);
                                 
+                                navigate('/product-details', { state: { product: pord.products } });
 
-                //     handleSubmit(product.id);
-                //     if(product.flash_product==1 && isLoggedIn==false){
-                //         navigate('/loginRegister');
-                //     }
-                //    else{
-                //     if(localStorage.getItem("paid")!="1"){
-                //       checkout.show({amount: 1000});
-                //   }
-                //   else if(localStorage.getItem("paid")=="1")
-                //   navigate('/product-details',{state:{product}});
-                //    }
                 }} class="h2 text-decoration-none text-dark">{pord.products.title}</a>
                             <p class="card-text"
                             style={{

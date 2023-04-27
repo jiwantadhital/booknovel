@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Link,useNavigate,useLocation } from "react-router-dom";
 import KhaltiCheckout from "khalti-checkout-web";
 import config from "../../components/khalti/khalti_config";
+import "./Home.css"
 function MostPpular() {
   let checkout = new KhaltiCheckout(config);
 
@@ -17,6 +18,28 @@ function MostPpular() {
             setActiveTab(true);
          }
       }, isLoggedIn);
+      function getStarRating(averageLikes) {
+        const rating = Math.round(averageLikes * 2) / 2;
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 !== 0;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+      
+        let stars = "";
+      
+        for (let i = 0; i < fullStars; i++) {
+          stars += '<i class="text-warning fa fa-star"></i>';
+        }
+      
+        if (halfStar) {
+          stars += '<i class="text-warning fa fa-star-half"></i>';
+        }
+      
+        for (let i = 0; i < emptyStars; i++) {
+          stars += '<i class="text-muted fa fa-star"></i>';
+        }
+      
+        return stars;
+      }
     const [popular, setPopular] = useState([]);
     useEffect(() => {
         fetch("http://localhost:8000/api/backend/product/popular")
@@ -71,13 +94,8 @@ function MostPpular() {
                         </a>
                         <div class="card-body">
                             <ul class="list-unstyled d-flex justify-content-between">
-                                <li>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                </li>
+                            <li dangerouslySetInnerHTML={{ __html: getStarRating(product.comments.reduce((total, comment) => total + comment.likes, 0) / product.comments.length) }}></li>
+
                                 <li class="text-muted text-right">{product.flash_product===1?"Premium":"Free"}</li>
                             </ul>
                             <a style={{
